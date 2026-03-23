@@ -29,11 +29,41 @@ Minimum viable config for productive agents:
 
 **Why each field matters:**
 
-- `cwd` — Without this, agents work in a default Paperclip-managed directory instead of the project
+- `cwd` — Fallback working directory, but **only used when no project workspace is configured** (see "Project Workspace" section below)
 - `model` — Without this, the adapter uses its default which may not be what the user expects
 - `maxTurnsPerRun` — 200 gives enough room for complex analysis/implementation. Default may be too low
 - `timeoutSec` — 3600 (1 hour) prevents premature timeouts on deep work
 - `dangerouslySkipPermissions` — Without this, Claude Code prompts for permission on every shell command and the heartbeat stalls with "I need approval for curl" messages
+
+## Project Workspace (CRITICAL)
+
+**The `adapterConfig.cwd` alone is NOT enough to set the working directory.** When agents are assigned to issues in a project, the project's workspace `cwd` takes precedence over `adapterConfig.cwd`. Without a project workspace, agents run in a Paperclip-managed directory (`~/.paperclip/instances/default/projects/.../_default`) — an empty folder that does not contain the project code.
+
+The cwd resolution priority in the claude_local adapter (`packages/adapters/claude-local/src/server/execute.ts`) is:
+
+1. **Project workspace `cwd`** (from `context.paperclipWorkspace.cwd`) — **TAKES PRECEDENCE**
+2. **`adapterConfig.cwd`** — Only used if workspace source is `agent_home` or workspace cwd is empty
+3. **`process.cwd()`** — Last fallback
+
+**Always create a project workspace immediately after creating the project:**
+
+```bash
+POST /api/projects/{projectId}/workspaces
+{
+  "name": "Local workspace",
+  "sourceType": "local_path",
+  "cwd": "C:/code/my-project",
+  "isPrimary": true
+}
+```
+
+**Verify it worked:**
+
+```bash
+GET /api/projects/{projectId}
+# codebase.effectiveLocalFolder should be "C:/code/my-project"
+# codebase.origin should be "local_folder"
+```
 
 ## Recommended runtimeConfig
 

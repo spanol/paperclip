@@ -118,6 +118,28 @@ POST /api/companies/{companyId}/projects
 
 Save the returned `id` as `PROJECT_ID`.
 
+#### Step 2b — Create Project Workspace (CRITICAL)
+
+**Without this step, agents will run in a Paperclip-managed directory (`~/.paperclip/instances/default/projects/.../_default`) instead of the actual project folder.** The project workspace `cwd` takes precedence over `adapterConfig.cwd` when the workspace source is `project_primary`. Setting `isPrimary: true` ensures this workspace is used as the effective working directory for all agents assigned to this project's issues.
+
+```bash
+POST /api/projects/{projectId}/workspaces
+{
+  "name": "Local workspace",
+  "sourceType": "local_path",
+  "cwd": "<project-path-forward-slashes>",
+  "isPrimary": true
+}
+```
+
+Verify the project now points to the correct path:
+
+```bash
+GET /api/projects/{projectId}
+# Check: codebase.effectiveLocalFolder should match the cwd above
+# Check: codebase.origin should be "local_folder"
+```
+
 #### Step 3 — Create Agents
 
 For each agent, call:

@@ -43,6 +43,26 @@ Response includes auto-generated `issuePrefix` (e.g. "DAI" for "Daichi").
 }
 ```
 
+## Project Workspaces
+
+| Action | Method | Endpoint |
+|--------|--------|----------|
+| Create workspace | POST | `/api/projects/{projectId}/workspaces` |
+| List workspaces | GET | `/api/projects/{projectId}/workspaces` |
+
+### Create Project Workspace Body
+
+```json
+{
+  "name": "string (optional)",
+  "sourceType": "local_path | git_repo | remote_managed | non_git_path (default: local_path)",
+  "cwd": "string (absolute path, forward slashes on Windows)",
+  "isPrimary": "boolean (default: false — set to true to make this the effective working directory)"
+}
+```
+
+**CRITICAL:** Without a primary workspace, agents run in a Paperclip-managed empty directory instead of the actual project. Always create a workspace with `isPrimary: true` right after creating the project.
+
 ## Agents
 
 | Action | Method | Endpoint |
