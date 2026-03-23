@@ -736,6 +736,10 @@ export function IssuesList({
                           )}
                         </span>
                       )}
+                      <span
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                        onPointerDown={(e) => e.stopPropagation()}
+                      >
                       <Popover
                         open={assigneePickerIssueId === issue.id}
                         onOpenChange={(open) => {
@@ -746,10 +750,6 @@ export function IssuesList({
                         <PopoverTrigger asChild>
                           <button
                             className="flex w-[180px] shrink-0 items-center rounded-md px-2 py-1 transition-colors hover:bg-accent/50"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                            }}
                           >
                             {issue.assigneeAgentId && agentName(issue.assigneeAgentId) ? (
                               <Identity name={agentName(issue.assigneeAgentId)!} size="sm" />
@@ -839,6 +839,7 @@ export function IssuesList({
                           </div>
                         </PopoverContent>
                       </Popover>
+                      </span>
                     </>
                   )}
                   trailingMeta={formatDate(issue.createdAt)}
