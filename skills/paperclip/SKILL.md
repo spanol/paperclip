@@ -7,7 +7,6 @@ description: >
   Paperclip API endpoint. Do NOT use for the actual domain work itself (writing
   code, research, etc.) — only for Paperclip coordination.
 ---
-
 # Paperclip Skill
 
 You run in **heartbeats** — short execution windows triggered by Paperclip. Each heartbeat, you wake up, check your work, do something useful, and exit. You do not run continuously.
@@ -123,7 +122,6 @@ Access control:
 - If the issue includes an OpenClaw URL (for example `ws://127.0.0.1:18789`), include that URL in your comment so the board/OpenClaw uses it in `agentDefaultsPayload.url`.
 
 3. Post the prompt in the issue comment so the human can paste it into OpenClaw.
-
 4. After OpenClaw submits the join request, monitor approvals and continue onboarding (approval + API key claim + skill install).
 
 ## Company Skills Workflow
@@ -153,7 +151,6 @@ If you are asked to install a skill for the company or an agent you MUST read:
 - **Budget**: auto-paused at 100%. Above 80%, focus on critical tasks only.
 - **Escalate** via `chainOfCommand` when stuck. Reassign to manager or create a task for them.
 - **Hiring**: use `paperclip-create-agent` skill for new agent creation workflows.
-- **Commit Co-author**: if you make a git commit you MUST add `Co-Authored-By: Paperclip <noreply@paperclip.ing>` to the end of each commit message
 
 ## Comment Style (Required)
 
@@ -251,8 +248,8 @@ PATCH /api/agents/{agentId}/instructions-path
 
 ## Key Endpoints (Quick Reference)
 
-| Action                                    | Endpoint                                                                                   |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Action                                    | Endpoint                                                                                     |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------- |
 | My identity                               | `GET /api/agents/me`                                                                       |
 | My compact inbox                          | `GET /api/agents/me/inbox-lite`                                                            |
 | My assignments                            | `GET /api/companies/:companyId/issues?assigneeAgentId=:id&status=todo,in_progress,blocked` |
@@ -266,7 +263,7 @@ PATCH /api/agents/{agentId}/instructions-path
 | Get comments                              | `GET /api/issues/:issueId/comments`                                                        |
 | Get comment delta                         | `GET /api/issues/:issueId/comments?after=:commentId&order=asc`                             |
 | Get specific comment                      | `GET /api/issues/:issueId/comments/:commentId`                                             |
-| Update task                               | `PATCH /api/issues/:issueId` (optional `comment` field)                                    |
+| Update task                               | `PATCH /api/issues/:issueId` (optional `comment` field)                                  |
 | Add comment                               | `POST /api/issues/:issueId/comments`                                                       |
 | Create subtask                            | `POST /api/companies/:companyId/issues`                                                    |
 | Generate OpenClaw invite prompt (CEO)     | `POST /api/companies/:companyId/openclaw/invite-prompt`                                    |
@@ -279,10 +276,10 @@ PATCH /api/agents/{agentId}/instructions-path
 | Import company skills                     | `POST /api/companies/:companyId/skills/import`                                             |
 | Scan project workspaces for skills        | `POST /api/companies/:companyId/skills/scan-projects`                                      |
 | Sync agent desired skills                 | `POST /api/agents/:agentId/skills/sync`                                                    |
-| Preview CEO-safe company import          | `POST /api/companies/:companyId/imports/preview`                                           |
-| Apply CEO-safe company import            | `POST /api/companies/:companyId/imports/apply`                                             |
-| Preview company export                   | `POST /api/companies/:companyId/exports/preview`                                           |
-| Build company export                     | `POST /api/companies/:companyId/exports`                                                   |
+| Preview CEO-safe company import           | `POST /api/companies/:companyId/imports/preview`                                           |
+| Apply CEO-safe company import             | `POST /api/companies/:companyId/imports/apply`                                             |
+| Preview company export                    | `POST /api/companies/:companyId/exports/preview`                                           |
+| Build company export                      | `POST /api/companies/:companyId/exports`                                                   |
 | Dashboard                                 | `GET /api/companies/:companyId/dashboard`                                                  |
 | Search issues                             | `GET /api/companies/:companyId/issues?q=search+term`                                       |
 | Upload attachment (multipart, field=file) | `POST /api/companies/:companyId/issues/:issueId/attachments`                               |
