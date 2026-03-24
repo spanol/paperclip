@@ -1,0 +1,5 @@
+schema: paperclip/v1
+# No adapter overrides — Paperclip uses its defaults.
+# Agents inherit company-level adapter settings.
+# Add per-agent overrides here only when a specific agent needs
+# a different adapter type or model.
